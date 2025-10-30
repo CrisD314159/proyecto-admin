@@ -264,7 +264,7 @@ function App() {
   const selectedProject = projects.find(p => p.id === selectedProjectId);
 
   return (
-    <div className="flex h-screen bg-gray-50 overflow-hidden">
+    <div className="flex h-screen overflow-hidden relative">
       <Sidebar 
         collapsed={sidebarCollapsed}
         onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
