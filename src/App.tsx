@@ -2,6 +2,11 @@ import { useState } from 'react';
 import { Dashboard } from './components/Dashboard';
 import { ProjectDetail } from './components/ProjectDetail';
 import { Sidebar } from './components/Sidebar';
+import { CreateProjectDialog } from './components/CreateProjectDialog';
+import { EditProjectDialog } from './components/EditProjectDialog';
+import { DeleteProjectDialog } from './components/DeleteProjectDialog';
+import { CreateTaskDialog } from './components/CreateTaskDialog';
+import { CreateKPIDialog } from './components/CreateKPIDialog';
 
 export type Project = {
   id: string;
@@ -68,9 +73,16 @@ function App() {
   const [currentView, setCurrentView] = useState<'dashboard' | 'project'>('dashboard');
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
+  const [createTaskDialogOpen, setCreateTaskDialogOpen] = useState(false);
+  const [createKPIDialogOpen, setCreateKPIDialogOpen] = useState(false);
 
-  // Mock data - proyecto de ejemplo
-  const [projects] = useState<Project[]>([
+  // Datos de ejemplo
+  const [projects, setProjects] = useState<Project[]>([
     {
       id: '1',
       name: 'Sistema de Gestión Empresarial',
@@ -261,6 +273,73 @@ function App() {
     setSelectedProjectId(null);
   };
 
+  const handleCreateProject = (projectData: Omit<Project, 'id'>) => {
+    const newProject: Project = {
+      ...projectData,
+      id: String(Date.now()),
+    };
+    setProjects(prev => [...prev, newProject]);
+  };
+
+  const handleEditProject = (projectId: string, updates: Partial<Project>) => {
+    setProjects(prev => prev.map(project => 
+      project.id === projectId ? { ...project, ...updates } : project
+    ));
+  };
+
+  const handleOpenEditDialog = (project: Project) => {
+    setProjectToEdit(project);
+    setEditDialogOpen(true);
+  };
+
+  const handleOpenDeleteDialog = (project: Project) => {
+    setProjectToDelete(project);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteProject = (projectId: string) => {
+    setProjects(prev => prev.filter(project => project.id !== projectId));
+    if (selectedProjectId === projectId) {
+      handleBackToDashboard();
+    }
+  };
+
+  const handleCreateTask = (taskData: Omit<Task, 'id'>) => {
+    if (!selectedProjectId) return;
+    
+    setProjects(prev => prev.map(project => {
+      if (project.id === selectedProjectId) {
+        const newTask: Task = {
+          ...taskData,
+          id: `t${project.tasks.length + 1}`,
+        };
+        return {
+          ...project,
+          tasks: [...project.tasks, newTask],
+        };
+      }
+      return project;
+    }));
+  };
+
+  const handleCreateKPI = (kpiData: Omit<KPI, 'id'>) => {
+    if (!selectedProjectId) return;
+    
+    setProjects(prev => prev.map(project => {
+      if (project.id === selectedProjectId) {
+        const newKPI: KPI = {
+          ...kpiData,
+          id: `k${project.kpis.length + 1}`,
+        };
+        return {
+          ...project,
+          kpis: [...project.kpis, newKPI],
+        };
+      }
+      return project;
+    }));
+  };
+
   const selectedProject = projects.find(p => p.id === selectedProjectId);
 
   return (
@@ -281,14 +360,59 @@ function App() {
           <Dashboard 
             projects={projects} 
             onProjectSelect={handleProjectSelect}
+            onCreateProject={() => setCreateDialogOpen(true)}
+            onEditProject={handleOpenEditDialog}
+            onDeleteProject={handleOpenDeleteDialog}
           />
         ) : selectedProject ? (
           <ProjectDetail 
             project={selectedProject}
             onBack={handleBackToDashboard}
+            onEditProject={handleOpenEditDialog}
+            onDeleteProject={handleOpenDeleteDialog}
+            onCreateTask={() => setCreateTaskDialogOpen(true)}
+            onCreateKPI={() => setCreateKPIDialogOpen(true)}
           />
         ) : null}
       </main>
+
+      <CreateProjectDialog
+        open={createDialogOpen}
+        onOpenChange={setCreateDialogOpen}
+        onCreateProject={handleCreateProject}
+      />
+
+      <EditProjectDialog
+        open={editDialogOpen}
+        onOpenChange={setEditDialogOpen}
+        onEditProject={handleEditProject}
+        project={projectToEdit}
+      />
+
+      <DeleteProjectDialog
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onDeleteProject={handleDeleteProject}
+        project={projectToDelete}
+      />
+
+      {selectedProject && (
+        <>
+          <CreateTaskDialog
+            open={createTaskDialogOpen}
+            onOpenChange={setCreateTaskDialogOpen}
+            onCreateTask={handleCreateTask}
+            phases={selectedProject.phases}
+            teamMembers={selectedProject.members.map(m => m.name)}
+          />
+
+          <CreateKPIDialog
+            open={createKPIDialogOpen}
+            onOpenChange={setCreateKPIDialogOpen}
+            onCreateKPI={handleCreateKPI}
+          />
+        </>
+      )}
     </div>
   );
 }

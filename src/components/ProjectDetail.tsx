@@ -14,9 +14,13 @@ import type { Project } from '../App';
 type ProjectDetailProps = {
   project: Project;
   onBack: () => void;
+  onEditProject: (project: Project) => void;
+  onDeleteProject: (project: Project) => void;
+  onCreateTask: () => void;
+  onCreateKPI: () => void;
 };
 
-export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
+export function ProjectDetail({ project, onBack, onEditProject, onDeleteProject, onCreateTask, onCreateKPI }: ProjectDetailProps) {
   const [activeTab, setActiveTab] = useState('overview');
 
   const getMethodologyColor = (methodology: string) => {
@@ -56,7 +60,11 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
             <p className="text-gray-600">{project.description}</p>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" className="gap-2">
+            <Button 
+              variant="outline" 
+              className="gap-2"
+              onClick={() => onEditProject(project)}
+            >
               <Edit className="w-4 h-4" />
               Editar
             </Button>
@@ -65,6 +73,7 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
               className={`gap-2 ${!canDelete ? 'opacity-50 cursor-not-allowed' : 'hover:bg-red-50 hover:text-red-600 hover:border-red-300'}`}
               disabled={!canDelete}
               title={!canDelete ? 'No se puede eliminar un proyecto con más del 20% de progreso' : 'Eliminar proyecto'}
+              onClick={() => onDeleteProject(project)}
             >
               <Trash2 className="w-4 h-4" />
               Eliminar
@@ -191,7 +200,7 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
             </TabsContent>
 
             <TabsContent value="tasks" className="mt-0 h-full">
-              <TasksView project={project} />
+              <TasksView project={project} onCreateTask={onCreateTask} />
             </TabsContent>
 
             <TabsContent value="gantt" className="mt-0 h-full">
@@ -199,7 +208,7 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
             </TabsContent>
 
             <TabsContent value="kpi" className="mt-0 h-full">
-              <KPIView project={project} />
+              <KPIView project={project} onCreateKPI={onCreateKPI} />
             </TabsContent>
 
             <TabsContent value="docs" className="mt-0 h-full">

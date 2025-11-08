@@ -1,22 +1,19 @@
 import { useState } from 'react';
-import { Plus, Filter, Search, Calendar, User, Image as ImageIcon } from 'lucide-react';
+import { Plus, Filter, Search, Calendar, User } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Badge } from './ui/badge';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
-import { Label } from './ui/label';
-import { Textarea } from './ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import type { Project } from '../App';
 
 type TasksViewProps = {
   project: Project;
+  onCreateTask?: () => void;
 };
 
-export function TasksView({ project }: TasksViewProps) {
+export function TasksView({ project, onCreateTask }: TasksViewProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterPriority, setFilterPriority] = useState<string>('all');
-  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
@@ -52,113 +49,13 @@ export function TasksView({ project }: TasksViewProps) {
           <h2 className="text-gray-900 mb-1">Tareas del Proyecto</h2>
           <p className="text-gray-600">{filteredTasks.length} tareas en total</p>
         </div>
-        <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white gap-2">
-              <Plus className="w-4 h-4" />
-              Nueva Tarea
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-2xl">
-            <DialogHeader>
-              <DialogTitle>Crear Nueva Tarea</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4 py-4">
-              <div>
-                <Label htmlFor="task-name">Nombre de la tarea</Label>
-                <Input id="task-name" placeholder="Ej: Implementar módulo de autenticación" />
-              </div>
-              
-              <div>
-                <Label htmlFor="task-description">Descripción</Label>
-                <Textarea 
-                  id="task-description" 
-                  placeholder="Describe los detalles de la tarea..."
-                  className="min-h-24"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="task-priority">Prioridad</Label>
-                  <Select>
-                    <SelectTrigger id="task-priority">
-                      <SelectValue placeholder="Selecciona prioridad" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="critica">Crítica</SelectItem>
-                      <SelectItem value="alta">Alta</SelectItem>
-                      <SelectItem value="media">Media</SelectItem>
-                      <SelectItem value="baja">Baja</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Label htmlFor="task-assignee">Responsable</Label>
-                  <Select>
-                    <SelectTrigger id="task-assignee">
-                      <SelectValue placeholder="Asignar a..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {project.members.map(member => (
-                        <SelectItem key={member.id} value={member.id}>
-                          {member.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="task-start">Fecha de inicio</Label>
-                  <Input id="task-start" type="date" />
-                </div>
-
-                <div>
-                  <Label htmlFor="task-end">Fecha de fin</Label>
-                  <Input id="task-end" type="date" />
-                </div>
-              </div>
-
-              <div>
-                <Label htmlFor="task-phase">Fase del proyecto</Label>
-                <Select>
-                  <SelectTrigger id="task-phase">
-                    <SelectValue placeholder="Selecciona fase" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {project.phases.map(phase => (
-                      <SelectItem key={phase.id} value={phase.id}>
-                        {phase.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label>Imágenes de referencia</Label>
-                <div className="mt-2 border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors cursor-pointer">
-                  <ImageIcon className="w-8 h-8 mx-auto text-gray-400 mb-2" />
-                  <p className="text-gray-600">Haz clic o arrastra imágenes aquí</p>
-                  <p className="text-gray-500">PNG, JPG hasta 10MB</p>
-                </div>
-              </div>
-
-              <div className="flex justify-end gap-2 pt-4">
-                <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
-                  Cancelar
-                </Button>
-                <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-                  Crear Tarea
-                </Button>
-              </div>
-            </div>
-          </DialogContent>
-        </Dialog>
+        <Button 
+          className="bg-blue-600 hover:bg-blue-700 text-white gap-2"
+          onClick={onCreateTask}
+        >
+          <Plus className="w-4 h-4" />
+          Nueva Tarea
+        </Button>
       </div>
 
       {/* Filters */}

@@ -1,27 +1,21 @@
-import { useState } from 'react';
-import { Plus, TrendingUp, TrendingDown, AlertCircle, Download } from 'lucide-react';
+import { Plus, TrendingUp, TrendingDown, AlertCircle } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Progress } from './ui/progress';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
-import { Label } from './ui/label';
-import { Input } from './ui/input';
-import { Textarea } from './ui/textarea';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
 import type { Project } from '../App';
 
 type KPIViewProps = {
   project: Project;
+  onCreateKPI?: () => void;
 };
 
-export function KPIView({ project }: KPIViewProps) {
-  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+export function KPIView({ project, onCreateKPI }: KPIViewProps) {
 
   const getKPIStatus = (kpi: typeof project.kpis[0]) => {
     const percentage = (kpi.current / kpi.target) * 100;
     
     if (kpi.name === 'Bugs críticos abiertos') {
-      // Para bugs, invertir la lógica (menos es mejor)
       if (kpi.current === 0) return 'excellent';
       if (kpi.current <= kpi.target) return 'good';
       return 'warning';
@@ -57,17 +51,11 @@ export function KPIView({ project }: KPIViewProps) {
     }
   };
 
-  // Mock data for charts
   const kpiTrendData = [
     { mes: 'Ene', velocidad: 38, cobertura: 65, satisfaccion: 82 },
     { mes: 'Feb', velocidad: 42, cobertura: 68, satisfaccion: 85 },
     { mes: 'Mar', velocidad: 45, cobertura: 72, satisfaccion: 88 },
   ];
-
-  const generatePDFReport = () => {
-    // Simulate PDF generation
-    alert('Generando reporte en PDF...\n\nEl reporte incluirá:\n- Estado actual de KPIs\n- Gráficas de tendencia\n- Resumen del proyecto\n- Tareas completadas y pendientes');
-  };
 
   return (
     <div className="p-8">
@@ -79,71 +67,15 @@ export function KPIView({ project }: KPIViewProps) {
         </div>
         <div className="flex gap-2">
           <Button 
-            variant="outline" 
-            className="gap-2"
-            onClick={generatePDFReport}
+            className="bg-blue-600 hover:bg-blue-700 text-white gap-2"
+            onClick={onCreateKPI}
           >
-            <Download className="w-4 h-4" />
-            Exportar Reporte PDF
+            <Plus className="w-4 h-4" />
+            Nuevo KPI
           </Button>
-          <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-            <DialogTrigger asChild>
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white gap-2">
-                <Plus className="w-4 h-4" />
-                Nuevo KPI
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Crear Nuevo KPI</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-4 py-4">
-                <div>
-                  <Label htmlFor="kpi-name">Nombre del KPI</Label>
-                  <Input id="kpi-name" placeholder="Ej: Tasa de entrega a tiempo" />
-                </div>
-                
-                <div>
-                  <Label htmlFor="kpi-description">Descripción</Label>
-                  <Textarea 
-                    id="kpi-description" 
-                    placeholder="Describe qué mide este KPI..."
-                    className="min-h-20"
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="kpi-target">Valor objetivo</Label>
-                    <Input id="kpi-target" type="number" placeholder="100" />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="kpi-current">Valor actual</Label>
-                    <Input id="kpi-current" type="number" placeholder="85" />
-                  </div>
-                </div>
-
-                <div>
-                  <Label htmlFor="kpi-unit">Unidad de medida</Label>
-                  <Input id="kpi-unit" placeholder="Ej: %, días, puntos" />
-                </div>
-
-                <div className="flex justify-end gap-2 pt-4">
-                  <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
-                    Cancelar
-                  </Button>
-                  <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-                    Crear KPI
-                  </Button>
-                </div>
-              </div>
-            </DialogContent>
-          </Dialog>
         </div>
       </div>
 
-      {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {project.kpis.map((kpi) => {
           const status = getKPIStatus(kpi);

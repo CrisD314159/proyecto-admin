@@ -1,19 +1,21 @@
-import { Plus, TrendingUp, Clock, DollarSign, CheckCircle2 } from 'lucide-react';
+import { Plus,Edit, Trash2, MoreVertical } from 'lucide-react';
 import { Card } from './ui/card';
 import { Button } from './ui/button';
 import { Progress } from './ui/progress';
 import { Badge } from './ui/badge';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from './ui/dropdown-menu';
 import type { Project } from '../App';
 
 type DashboardProps = {
   projects: Project[];
   onProjectSelect: (projectId: string) => void;
+  onCreateProject: () => void;
+  onEditProject: (project: Project) => void;
+  onDeleteProject: (project: Project) => void;
 };
 
-export function Dashboard({ projects, onProjectSelect }: DashboardProps) {
+export function Dashboard({ projects, onProjectSelect, onCreateProject, onEditProject, onDeleteProject }: DashboardProps) {
   const totalProjects = projects.length;
-  const activeProjects = projects.filter(p => p.progress > 0 && p.progress < 100).length;
-  const totalBudget = projects.reduce((sum, p) => sum + p.budget, 0);
   const completedTasks = projects.reduce((sum, p) => 
     sum + p.tasks.filter(t => t.status === 'completed').length, 0
   );
@@ -29,14 +31,12 @@ export function Dashboard({ projects, onProjectSelect }: DashboardProps) {
 
   return (
     <div className="h-full overflow-auto">
-      {/* Header */}
       <div className="glass sticky top-0 z-10 px-8 py-6 backdrop-blur-xl">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-gray-900 mb-1">Dashboard de Proyectos</h1>
-            <p className="text-gray-600">Gestiona y da seguimiento a todos tus proyectos</p>
           </div>
-          <Button className="gap-2">
+          <Button className="gap-2" onClick={onCreateProject}>
             <Plus className="w-4 h-4" />
             Nuevo Proyecto
           </Button>
@@ -44,40 +44,12 @@ export function Dashboard({ projects, onProjectSelect }: DashboardProps) {
       </div>
 
       <div className="p-8">
-        {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card className="p-6">
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-gray-600 mb-1">Total Proyectos</p>
                 <p className="text-gray-900">{totalProjects}</p>
-              </div>
-              <div className="w-12 h-12 glass-subtle rounded-xl flex items-center justify-center">
-                <TrendingUp className="w-6 h-6 text-blue-600" />
-              </div>
-            </div>
-          </Card>
-
-          <Card className="p-6">
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-gray-600 mb-1">Proyectos Activos</p>
-                <p className="text-gray-900">{activeProjects}</p>
-              </div>
-              <div className="w-12 h-12 glass-subtle rounded-xl flex items-center justify-center">
-                <Clock className="w-6 h-6 text-green-600" />
-              </div>
-            </div>
-          </Card>
-
-          <Card className="p-6">
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-gray-600 mb-1">Presupuesto Total</p>
-                <p className="text-gray-900">${totalBudget.toLocaleString()}</p>
-              </div>
-              <div className="w-12 h-12 glass-subtle rounded-xl flex items-center justify-center">
-                <DollarSign className="w-6 h-6 text-purple-600" />
               </div>
             </div>
           </Card>
@@ -88,14 +60,10 @@ export function Dashboard({ projects, onProjectSelect }: DashboardProps) {
                 <p className="text-gray-600 mb-1">Tareas Completadas</p>
                 <p className="text-gray-900">{completedTasks}</p>
               </div>
-              <div className="w-12 h-12 glass-subtle rounded-xl flex items-center justify-center">
-                <CheckCircle2 className="w-6 h-6 text-orange-600" />
-              </div>
             </div>
           </Card>
         </div>
 
-        {/* Projects List */}
         <div className="mb-6">
           <h2 className="text-gray-900 mb-4">Tus Proyectos</h2>
         </div>
@@ -104,11 +72,13 @@ export function Dashboard({ projects, onProjectSelect }: DashboardProps) {
           {projects.map((project) => (
             <Card
               key={project.id}
-              className="p-6 cursor-pointer group"
-              onClick={() => onProjectSelect(project.id)}
+              className="p-6 group"
             >
               <div className="flex items-start justify-between mb-4">
-                <div className="flex-1">
+                <div 
+                  className="flex-1 cursor-pointer"
+                  onClick={() => onProjectSelect(project.id)}
+                >
                   <h3 className="text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
                     {project.name}
                   </h3>
@@ -116,10 +86,47 @@ export function Dashboard({ projects, onProjectSelect }: DashboardProps) {
                     {project.description}
                   </p>
                 </div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                      onClick={(e: React.MouseEvent) => {
+                        e.stopPropagation();
+                      }}
+                    >
+                      <MoreVertical className="w-4 h-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem
+                      onClick={(e: React.MouseEvent) => {
+                        e.stopPropagation();
+                        onEditProject(project);
+                      }}
+                    >
+                      <Edit className="w-4 h-4 mr-2" />
+                      Editar
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={(e: React.MouseEvent) => {
+                        e.stopPropagation();
+                        onDeleteProject(project);
+                      }}
+                      className="text-red-600 focus:text-red-600"
+                      disabled={project.progress >= 20}
+                    >
+                      <Trash2 className="w-4 h-4 mr-2" />
+                      Eliminar
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
 
-              <div className="space-y-3">
-                <div>
+              <div className="space-y-3" onClick={() => onProjectSelect(project.id)}>
+                <div className="cursor-pointer">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-gray-600">Progreso</span>
                     <span className="text-gray-900">{project.progress}%</span>
