@@ -1,6 +1,6 @@
 
   {
-      "name": "Untitled",
+      "name": "mvp-admin",
       "version": "0.1.0",
       "private": true,
       "dependencies": {
@@ -50,7 +50,17 @@
       "devDependencies": {
           "@types/node": "^20.10.0",
           "@vitejs/plugin-react-swc": "^3.10.2",
-          "vite": "6.3.5"
+          "vite": "6.3.5",
+            "@types/react": "^18.3.3",
+            "@types/react-dom": "^18.3.0",
+            "@typescript-eslint/eslint-plugin": "^7.13.1",
+            "@typescript-eslint/parser": "^7.13.1",
+            "eslint": "^8.57.0",
+            "eslint-plugin-react-hooks": "^4.6.2",
+            "eslint-plugin-react-refresh": "^0.4.7",
+            "sass": "^1.77.6",
+            "standard": "^17.1.0",
+            "typescript": "^5.2.2"
       },
       "scripts": {
           "dev": "vite",
