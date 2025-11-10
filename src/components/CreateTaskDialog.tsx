@@ -15,12 +15,12 @@ type CreateTaskDialogProps = {
   teamMembers: string[];
 };
 
-export function CreateTaskDialog({ 
-  open, 
-  onOpenChange, 
-  onCreateTask, 
+export function CreateTaskDialog({
+  open,
+  onOpenChange,
+  onCreateTask,
   phases,
-  teamMembers 
+  teamMembers
 }: CreateTaskDialogProps) {
   const [formData, setFormData] = useState({
     name: '',
@@ -37,30 +37,29 @@ export function CreateTaskDialog({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Validate form
+
     const newErrors: Record<string, string> = {};
-    
+
     if (!formData.name.trim()) {
       newErrors.name = 'El nombre de la tarea es requerido';
     }
-    
+
     if (!formData.description.trim()) {
       newErrors.description = 'La descripción es requerida';
     }
-    
+
     if (!formData.assignee) {
       newErrors.assignee = 'Debe asignar la tarea a un miembro del equipo';
     }
-    
+
     if (!formData.phaseId) {
       newErrors.phaseId = 'Debe seleccionar una fase';
     }
-    
+
     if (!formData.startDate) {
       newErrors.startDate = 'La fecha de inicio es requerida';
     }
-    
+
     if (!formData.endDate) {
       newErrors.endDate = 'La fecha de finalización es requerida';
     }
@@ -70,7 +69,6 @@ export function CreateTaskDialog({
       return;
     }
 
-    // Create new task
     const newTask: Omit<Task, 'id'> = {
       name: formData.name.trim(),
       description: formData.description.trim(),
@@ -84,8 +82,7 @@ export function CreateTaskDialog({
     };
 
     onCreateTask(newTask);
-    
-    // Reset form
+
     resetForm();
     onOpenChange(false);
   };
@@ -106,7 +103,6 @@ export function CreateTaskDialog({
 
   const handleChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
-    // Clear error when user starts typing
     if (errors[field]) {
       setErrors(prev => {
         const newErrors = { ...prev };
@@ -129,9 +125,9 @@ export function CreateTaskDialog({
             Crear Nueva Tarea
           </DialogTitle>
         </DialogHeader>
-        
+
         <form onSubmit={handleSubmit} className="space-y-6 py-4">
-          {/* Task Name */}
+          { }
           <div className="space-y-2">
             <Label htmlFor="task-name" className="text-gray-900">
               Nombre de la Tarea <span className="text-red-500">*</span>
@@ -148,7 +144,7 @@ export function CreateTaskDialog({
             )}
           </div>
 
-          {/* Description */}
+          { }
           <div className="space-y-2">
             <Label htmlFor="task-description" className="text-gray-900">
               Descripción <span className="text-red-500">*</span>
@@ -166,7 +162,7 @@ export function CreateTaskDialog({
             )}
           </div>
 
-          {/* Priority and Status */}
+          { }
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="task-priority" className="text-gray-900">
@@ -208,7 +204,7 @@ export function CreateTaskDialog({
             </div>
           </div>
 
-          {/* Assignee and Phase */}
+          { }
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="task-assignee" className="text-gray-900">
@@ -271,7 +267,7 @@ export function CreateTaskDialog({
             </div>
           </div>
 
-          {/* Start and End Date */}
+          { }
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="task-startDate" className="text-gray-900">
@@ -308,7 +304,7 @@ export function CreateTaskDialog({
             </div>
           </div>
 
-          {/* Form Actions */}
+          { }
           <div className="flex justify-end gap-3 pt-4">
             <Button
               type="button"

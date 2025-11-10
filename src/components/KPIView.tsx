@@ -14,13 +14,13 @@ export function KPIView({ project, onCreateKPI }: KPIViewProps) {
 
   const getKPIStatus = (kpi: typeof project.kpis[0]) => {
     const percentage = (kpi.current / kpi.target) * 100;
-    
+
     if (kpi.name === 'Bugs críticos abiertos') {
       if (kpi.current === 0) return 'excellent';
       if (kpi.current <= kpi.target) return 'good';
       return 'warning';
     }
-    
+
     if (percentage >= 90) return 'excellent';
     if (percentage >= 70) return 'good';
     if (percentage >= 50) return 'warning';
@@ -66,7 +66,7 @@ export function KPIView({ project, onCreateKPI }: KPIViewProps) {
           <p className="text-gray-600">Monitorea el progreso y cumplimiento de objetivos</p>
         </div>
         <div className="flex gap-2">
-          <Button 
+          <Button
             className="bg-blue-600 hover:bg-blue-700 text-white gap-2"
             onClick={onCreateKPI}
           >
@@ -80,7 +80,7 @@ export function KPIView({ project, onCreateKPI }: KPIViewProps) {
         {project.kpis.map((kpi) => {
           const status = getKPIStatus(kpi);
           const percentage = Math.min((kpi.current / kpi.target) * 100, 100);
-          
+
           return (
             <Card key={kpi.id} className="p-6 border border-gray-200">
               <div className="flex items-start justify-between mb-4">
@@ -89,7 +89,7 @@ export function KPIView({ project, onCreateKPI }: KPIViewProps) {
                   {getStatusIcon(status)}
                 </div>
               </div>
-              
+
               <div className="mb-3">
                 <div className="flex items-baseline gap-2 mb-1">
                   <span className="text-gray-900">
@@ -99,14 +99,14 @@ export function KPIView({ project, onCreateKPI }: KPIViewProps) {
                 </div>
                 <Progress value={percentage} className="h-2" />
               </div>
-              
+
               <p className="text-gray-600">{kpi.description}</p>
             </Card>
           );
         })}
       </div>
 
-      {/* Charts */}
+      { }
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="p-6 border border-gray-200">
           <h3 className="text-gray-900 mb-4">Tendencia de KPIs</h3>
@@ -115,32 +115,32 @@ export function KPIView({ project, onCreateKPI }: KPIViewProps) {
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
               <XAxis dataKey="mes" stroke="#6b7280" />
               <YAxis stroke="#6b7280" />
-              <Tooltip 
-                contentStyle={{ 
-                  backgroundColor: 'white', 
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: 'white',
                   border: '1px solid #e5e7eb',
                   borderRadius: '8px'
                 }}
               />
               <Legend />
-              <Line 
-                type="monotone" 
-                dataKey="velocidad" 
-                stroke="#3b82f6" 
+              <Line
+                type="monotone"
+                dataKey="velocidad"
+                stroke="#3b82f6"
                 strokeWidth={2}
                 name="Velocidad"
               />
-              <Line 
-                type="monotone" 
-                dataKey="cobertura" 
-                stroke="#10b981" 
+              <Line
+                type="monotone"
+                dataKey="cobertura"
+                stroke="#10b981"
                 strokeWidth={2}
                 name="Cobertura"
               />
-              <Line 
-                type="monotone" 
-                dataKey="satisfaccion" 
-                stroke="#8b5cf6" 
+              <Line
+                type="monotone"
+                dataKey="satisfaccion"
+                stroke="#8b5cf6"
                 strokeWidth={2}
                 name="Satisfacción"
               />
@@ -159,9 +159,9 @@ export function KPIView({ project, onCreateKPI }: KPIViewProps) {
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
               <XAxis dataKey="name" stroke="#6b7280" />
               <YAxis stroke="#6b7280" />
-              <Tooltip 
-                contentStyle={{ 
-                  backgroundColor: 'white', 
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: 'white',
                   border: '1px solid #e5e7eb',
                   borderRadius: '8px'
                 }}
@@ -174,7 +174,7 @@ export function KPIView({ project, onCreateKPI }: KPIViewProps) {
         </Card>
       </div>
 
-      {/* Report Preview */}
+      { }
       <Card className="mt-6 p-6 border border-gray-200">
         <h3 className="text-gray-900 mb-4">Resumen Ejecutivo</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -188,7 +188,7 @@ export function KPIView({ project, onCreateKPI }: KPIViewProps) {
               El proyecto avanza según lo planeado con un {project.progress}% de progreso completado.
             </p>
           </div>
-          
+
           <div>
             <p className="text-gray-600 mb-2">KPIs en Meta</p>
             <p className="text-gray-900">
@@ -201,7 +201,7 @@ export function KPIView({ project, onCreateKPI }: KPIViewProps) {
               La mayoría de los indicadores se encuentran dentro de los objetivos establecidos.
             </p>
           </div>
-          
+
           <div>
             <p className="text-gray-600 mb-2">Próximos Hitos</p>
             <p className="text-gray-900">Sprint 3 completado</p>

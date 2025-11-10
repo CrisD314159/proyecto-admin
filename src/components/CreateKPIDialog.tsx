@@ -25,26 +25,25 @@ export function CreateKPIDialog({ open, onOpenChange, onCreateKPI }: CreateKPIDi
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Validate form
+
     const newErrors: Record<string, string> = {};
-    
+
     if (!formData.name.trim()) {
       newErrors.name = 'El nombre del KPI es requerido';
     }
-    
+
     if (!formData.target || parseFloat(formData.target) <= 0) {
       newErrors.target = 'El objetivo debe ser mayor a 0';
     }
-    
+
     if (!formData.current || parseFloat(formData.current) < 0) {
       newErrors.current = 'El valor actual debe ser mayor o igual a 0';
     }
-    
+
     if (!formData.unit.trim()) {
       newErrors.unit = 'La unidad de medida es requerida';
     }
-    
+
     if (!formData.description.trim()) {
       newErrors.description = 'La descripción es requerida';
     }
@@ -54,7 +53,6 @@ export function CreateKPIDialog({ open, onOpenChange, onCreateKPI }: CreateKPIDi
       return;
     }
 
-    // Create new KPI
     const newKPI: Omit<KPI, 'id'> = {
       name: formData.name.trim(),
       target: parseFloat(formData.target),
@@ -64,8 +62,7 @@ export function CreateKPIDialog({ open, onOpenChange, onCreateKPI }: CreateKPIDi
     };
 
     onCreateKPI(newKPI);
-    
-    // Reset form
+
     resetForm();
     onOpenChange(false);
   };
@@ -83,7 +80,6 @@ export function CreateKPIDialog({ open, onOpenChange, onCreateKPI }: CreateKPIDi
 
   const handleChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
-    // Clear error when user starts typing
     if (errors[field]) {
       setErrors(prev => {
         const newErrors = { ...prev };
@@ -106,9 +102,9 @@ export function CreateKPIDialog({ open, onOpenChange, onCreateKPI }: CreateKPIDi
             Crear Nuevo KPI
           </DialogTitle>
         </DialogHeader>
-        
+
         <form onSubmit={handleSubmit} className="space-y-6 py-4">
-          {/* KPI Name */}
+          { }
           <div className="space-y-2">
             <Label htmlFor="kpi-name" className="text-gray-900">
               Nombre del KPI <span className="text-red-500">*</span>
@@ -125,7 +121,7 @@ export function CreateKPIDialog({ open, onOpenChange, onCreateKPI }: CreateKPIDi
             )}
           </div>
 
-          {/* Description */}
+          { }
           <div className="space-y-2">
             <Label htmlFor="kpi-description" className="text-gray-900">
               Descripción <span className="text-red-500">*</span>
@@ -143,7 +139,7 @@ export function CreateKPIDialog({ open, onOpenChange, onCreateKPI }: CreateKPIDi
             )}
           </div>
 
-          {/* Target and Current */}
+          { }
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="kpi-target" className="text-gray-900">
@@ -184,7 +180,7 @@ export function CreateKPIDialog({ open, onOpenChange, onCreateKPI }: CreateKPIDi
             </div>
           </div>
 
-          {/* Unit */}
+          { }
           <div className="space-y-2">
             <Label htmlFor="kpi-unit" className="text-gray-900">
               Unidad de Medida <span className="text-red-500">*</span>
@@ -201,7 +197,7 @@ export function CreateKPIDialog({ open, onOpenChange, onCreateKPI }: CreateKPIDi
             )}
           </div>
 
-          {/* Form Actions */}
+          { }
           <div className="flex justify-end gap-3 pt-4">
             <Button
               type="button"

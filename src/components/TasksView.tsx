@@ -36,20 +36,20 @@ export function TasksView({ project, onCreateTask }: TasksViewProps) {
 
   const filteredTasks = project.tasks.filter(task => {
     const matchesSearch = task.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         task.description.toLowerCase().includes(searchTerm.toLowerCase());
+      task.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesPriority = filterPriority === 'all' || task.priority === filterPriority;
     return matchesSearch && matchesPriority;
   });
 
   return (
     <div className="p-8">
-      {/* Header */}
+      { }
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-gray-900 mb-1">Tareas del Proyecto</h2>
           <p className="text-gray-600">{filteredTasks.length} tareas en total</p>
         </div>
-        <Button 
+        <Button
           className="bg-blue-600 hover:bg-blue-700 text-white gap-2"
           onClick={onCreateTask}
         >
@@ -58,7 +58,7 @@ export function TasksView({ project, onCreateTask }: TasksViewProps) {
         </Button>
       </div>
 
-      {/* Filters */}
+      { }
       <div className="flex items-center gap-4 mb-6">
         <div className="flex-1 relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -84,7 +84,7 @@ export function TasksView({ project, onCreateTask }: TasksViewProps) {
         </Select>
       </div>
 
-      {/* Tasks List */}
+      { }
       <div className="space-y-4">
         {filteredTasks.map((task) => {
           const phase = project.phases.find(p => p.id === task.phaseId);

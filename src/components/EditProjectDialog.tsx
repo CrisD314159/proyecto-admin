@@ -25,7 +25,6 @@ export function EditProjectDialog({ open, onOpenChange, onEditProject, project }
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  // Update form when project changes
   useEffect(() => {
     if (project) {
       setFormData({
@@ -41,24 +40,23 @@ export function EditProjectDialog({ open, onOpenChange, onEditProject, project }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!project) return;
-    
-    // Validate form
+
     const newErrors: Record<string, string> = {};
-    
+
     if (!formData.name.trim()) {
       newErrors.name = 'El nombre del proyecto es requerido';
     }
-    
+
     if (!formData.description.trim()) {
       newErrors.description = 'La descripción es requerida';
     }
-    
+
     if (!formData.endDate) {
       newErrors.endDate = 'La fecha de finalización es requerida';
     }
-    
+
     if (!formData.budget || parseFloat(formData.budget) <= 0) {
       newErrors.budget = 'El presupuesto debe ser mayor a 0';
     }
@@ -68,7 +66,6 @@ export function EditProjectDialog({ open, onOpenChange, onEditProject, project }
       return;
     }
 
-    // Update project
     const updates: Partial<Project> = {
       name: formData.name.trim(),
       description: formData.description.trim(),
@@ -83,7 +80,6 @@ export function EditProjectDialog({ open, onOpenChange, onEditProject, project }
 
   const handleChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
-    // Clear error when user starts typing
     if (errors[field]) {
       setErrors(prev => {
         const newErrors = { ...prev };
@@ -108,9 +104,9 @@ export function EditProjectDialog({ open, onOpenChange, onEditProject, project }
             Editar Proyecto
           </DialogTitle>
         </DialogHeader>
-        
+
         <form onSubmit={handleSubmit} className="space-y-6 py-4">
-          {/* Project Name */}
+          { }
           <div className="space-y-2">
             <Label htmlFor="edit-name" className="text-gray-900">
               Nombre del Proyecto <span className="text-red-500">*</span>
@@ -127,7 +123,7 @@ export function EditProjectDialog({ open, onOpenChange, onEditProject, project }
             )}
           </div>
 
-          {/* Description */}
+          { }
           <div className="space-y-2">
             <Label htmlFor="edit-description" className="text-gray-900">
               Descripción <span className="text-red-500">*</span>
@@ -145,7 +141,7 @@ export function EditProjectDialog({ open, onOpenChange, onEditProject, project }
             )}
           </div>
 
-          {/* Methodology and End Date */}
+          { }
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="edit-methodology" className="text-gray-900">
@@ -184,7 +180,7 @@ export function EditProjectDialog({ open, onOpenChange, onEditProject, project }
             </div>
           </div>
 
-          {/* Budget */}
+          { }
           <div className="space-y-2">
             <Label htmlFor="edit-budget" className="text-gray-900">
               Presupuesto (USD) <span className="text-red-500">*</span>
@@ -204,7 +200,7 @@ export function EditProjectDialog({ open, onOpenChange, onEditProject, project }
             )}
           </div>
 
-          {/* Form Actions */}
+          { }
           <div className="flex justify-end gap-3 pt-4">
             <Button
               type="button"

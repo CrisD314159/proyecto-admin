@@ -36,7 +36,7 @@ export function ProjectDetail({ project, onBack, onEditProject, onDeleteProject,
 
   return (
     <div className="h-full flex flex-col overflow-hidden">
-      {/* Header */}
+      { }
       <div className="bg-white border-b border-gray-200 px-8 py-6">
         <div className="flex items-center gap-4 mb-4">
           <Button
@@ -50,8 +50,8 @@ export function ProjectDetail({ project, onBack, onEditProject, onDeleteProject,
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
               <h1 className="text-gray-900">{project.name}</h1>
-              <Badge 
-                variant="outline" 
+              <Badge
+                variant="outline"
                 className={getMethodologyColor(project.methodology)}
               >
                 {project.methodology}
@@ -60,16 +60,16 @@ export function ProjectDetail({ project, onBack, onEditProject, onDeleteProject,
             <p className="text-gray-600">{project.description}</p>
           </div>
           <div className="flex gap-2">
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               className="gap-2"
               onClick={() => onEditProject(project)}
             >
               <Edit className="w-4 h-4" />
               Editar
             </Button>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               className={`gap-2 ${!canDelete ? 'opacity-50 cursor-not-allowed' : 'hover:bg-red-50 hover:text-red-600 hover:border-red-300'}`}
               disabled={!canDelete}
               title={!canDelete ? 'No se puede eliminar un proyecto con más del 20% de progreso' : 'Eliminar proyecto'}
@@ -81,7 +81,7 @@ export function ProjectDetail({ project, onBack, onEditProject, onDeleteProject,
           </div>
         </div>
 
-        {/* Quick Stats */}
+        { }
         <div className="grid grid-cols-4 gap-6">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -123,7 +123,7 @@ export function ProjectDetail({ project, onBack, onEditProject, onDeleteProject,
         </div>
       </div>
 
-      {/* Tabs */}
+      { }
       <div className="flex-1 overflow-hidden">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full flex flex-col">
           <div className="bg-white border-b border-gray-200 px-8">
@@ -168,7 +168,7 @@ export function ProjectDetail({ project, onBack, onEditProject, onDeleteProject,
                   </div>
                 </Card>
 
-                {/* Phases */}
+                { }
                 <Card className="p-6 border border-gray-200">
                   <h3 className="text-gray-900 mb-4">Fases del Proyecto</h3>
                   <div className="space-y-3">
@@ -176,14 +176,14 @@ export function ProjectDetail({ project, onBack, onEditProject, onDeleteProject,
                       <div key={phase.id} className="p-3 rounded-lg border border-gray-200 hover:border-blue-300 transition-colors">
                         <div className="flex items-center justify-between mb-2">
                           <p className="text-gray-900">{phase.name}</p>
-                          <Badge 
+                          <Badge
                             variant="outline"
                             className={
-                              phase.status === 'completed' 
+                              phase.status === 'completed'
                                 ? 'bg-green-100 text-green-700 border-green-200'
                                 : phase.status === 'in-progress'
-                                ? 'bg-blue-100 text-blue-700 border-blue-200'
-                                : 'bg-gray-100 text-gray-700 border-gray-200'
+                                  ? 'bg-blue-100 text-blue-700 border-blue-200'
+                                  : 'bg-gray-100 text-gray-700 border-gray-200'
                             }
                           >
                             {phase.status === 'completed' ? 'Completada' : phase.status === 'in-progress' ? 'En Progreso' : 'Pendiente'}

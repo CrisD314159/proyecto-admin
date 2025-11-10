@@ -45,19 +45,19 @@ export function CreateProjectDialog({ open, onOpenChange, onCreateProject }: Cre
   const handleSubmit = () => {
     if (currentStep === 1) {
       const newErrors: Record<string, string> = {};
-      
+
       if (!formData.name.trim()) {
         newErrors.name = 'El nombre del proyecto es requerido';
       }
-      
+
       if (!formData.description.trim()) {
         newErrors.description = 'La descripción es requerida';
       }
-      
+
       if (!formData.endDate) {
         newErrors.endDate = 'La fecha de finalización es requerida';
       }
-      
+
       if (!formData.budget || parseFloat(formData.budget) <= 0) {
         newErrors.budget = 'El presupuesto debe ser mayor a 0';
       }
@@ -66,7 +66,7 @@ export function CreateProjectDialog({ open, onOpenChange, onCreateProject }: Cre
         setErrors(newErrors);
         return;
       }
-      
+
       setCurrentStep(2);
       return;
     }
@@ -92,7 +92,7 @@ export function CreateProjectDialog({ open, onOpenChange, onCreateProject }: Cre
     };
 
     onCreateProject(newProject);
-    
+
     resetForm();
     onOpenChange(false);
   };
@@ -174,7 +174,7 @@ export function CreateProjectDialog({ open, onOpenChange, onCreateProject }: Cre
             </div>
           </div>
         </DialogHeader>
-        
+
         <div className="py-4">
           {currentStep === 1 && (
             <form className="space-y-6">
@@ -190,13 +190,13 @@ export function CreateProjectDialog({ open, onOpenChange, onCreateProject }: Cre
                   required
                 />
                 {errors.endDate && (
-                    <p style={{color:'red', fontSize:'12px'}}>{errors.name}</p>
-                  )}
+                  <p style={{ color: 'red', fontSize: '12px' }}>{errors.name}</p>
+                )}
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="description" className="text-gray-900">
-                  Descripción 
+                  Descripción
                 </Label>
                 <Textarea
                   id="description"
@@ -207,7 +207,7 @@ export function CreateProjectDialog({ open, onOpenChange, onCreateProject }: Cre
                   className={errors.description ? 'border-red-500' : ''}
                 />
                 {errors.description && (
-                  <p style={{color:'red', fontSize:'12px'}}>{errors.description}</p>
+                  <p style={{ color: 'red', fontSize: '12px' }}>{errors.description}</p>
                 )}
               </div>
 
@@ -233,7 +233,7 @@ export function CreateProjectDialog({ open, onOpenChange, onCreateProject }: Cre
 
                 <div className="space-y-2">
                   <Label htmlFor="endDate" className="text-gray-900">
-                    Fecha de Finalización 
+                    Fecha de Finalización
                   </Label>
                   <Input
                     id="endDate"
@@ -244,7 +244,7 @@ export function CreateProjectDialog({ open, onOpenChange, onCreateProject }: Cre
                     className={errors.endDate ? 'border-red-500' : ''}
                   />
                   {errors.endDate && (
-                    <p style={{color:'red', fontSize:'12px'}}>{errors.endDate}</p>
+                    <p style={{ color: 'red', fontSize: '12px' }}>{errors.endDate}</p>
                   )}
                 </div>
               </div>
@@ -263,7 +263,7 @@ export function CreateProjectDialog({ open, onOpenChange, onCreateProject }: Cre
                   className={errors.budget ? 'border-red-500' : ''}
                 />
                 {errors.budget && (
-                  <p style={{color:'red', fontSize:'12px'}}>{errors.budget}</p>
+                  <p style={{ color: 'red', fontSize: '12px' }}>{errors.budget}</p>
                 )}
               </div>
             </form>
@@ -271,11 +271,11 @@ export function CreateProjectDialog({ open, onOpenChange, onCreateProject }: Cre
 
           {currentStep === 2 && (
             <div className="space-y-6">
-              {/* Team Members Section */}
+              { }
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Miembros del Equipo (Opcional)</h3>
-                
-                {/* Add Member Form */}
+
+                { }
                 <Card className="p-4 mb-4 bg-gray-50">
                   <div className="space-y-3">
                     <div className="grid grid-cols-2 gap-3">
@@ -307,7 +307,7 @@ export function CreateProjectDialog({ open, onOpenChange, onCreateProject }: Cre
                   </div>
                 </Card>
 
-                {/* Members List */}
+                { }
                 {teamMembers.length > 0 && (
                   <div className="space-y-2">
                     {teamMembers.map((member, index) => (
@@ -335,11 +335,11 @@ export function CreateProjectDialog({ open, onOpenChange, onCreateProject }: Cre
                 )}
               </div>
 
-              {/* Phases Section */}
+              { }
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Fases del Proyecto (Opcional)</h3>
-                
-                {/* Add Phase Form */}
+
+                { }
                 <Card className="p-4 mb-4 bg-gray-50">
                   <div className="space-y-3">
                     <Input
@@ -379,7 +379,7 @@ export function CreateProjectDialog({ open, onOpenChange, onCreateProject }: Cre
                   </div>
                 </Card>
 
-                {/* Phases List */}
+                { }
                 {phases.length > 0 && (
                   <div className="space-y-2">
                     {phases.map((phase, index) => (
@@ -409,7 +409,7 @@ export function CreateProjectDialog({ open, onOpenChange, onCreateProject }: Cre
           )}
         </div>
 
-        {/* Form Actions */}
+        { }
         <div className="flex justify-between pt-4 border-t">
           <Button
             type="button"
@@ -418,7 +418,7 @@ export function CreateProjectDialog({ open, onOpenChange, onCreateProject }: Cre
           >
             Cancelar
           </Button>
-          
+
           <div className="flex gap-2">
             {currentStep === 2 && (
               <Button
