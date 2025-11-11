@@ -7,16 +7,14 @@ type GanttViewProps = {
 
 export function GanttView({ project }: GanttViewProps) {
   const ganttData = useMemo(() => {
-    // Calcular el rango de fechas del proyecto
     const allDates = [
       ...project.phases.map(p => new Date(p.startDate)),
       ...project.phases.map(p => new Date(p.endDate)),
     ];
-    
+
     const minDate = new Date(Math.min(...allDates.map(d => d.getTime())));
     const maxDate = new Date(Math.max(...allDates.map(d => d.getTime())));
-    
-    // Generar meses para la timeline
+
     const months: Date[] = [];
     const current = new Date(minDate.getFullYear(), minDate.getMonth(), 1);
     while (current <= maxDate) {
@@ -24,7 +22,6 @@ export function GanttView({ project }: GanttViewProps) {
       current.setMonth(current.getMonth() + 1);
     }
 
-    // Calcular días totales
     const totalDays = Math.ceil((maxDate.getTime() - minDate.getTime()) / (1000 * 60 * 60 * 24));
 
     return { minDate, maxDate, months, totalDays };
@@ -33,13 +30,13 @@ export function GanttView({ project }: GanttViewProps) {
   const getPhasePosition = (startDate: string, endDate: string) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
-    
+
     const startOffset = Math.ceil((start.getTime() - ganttData.minDate.getTime()) / (1000 * 60 * 60 * 24));
     const duration = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
-    
+
     const left = (startOffset / ganttData.totalDays) * 100;
     const width = (duration / ganttData.totalDays) * 100;
-    
+
     return { left: `${left}%`, width: `${width}%` };
   };
 
@@ -81,7 +78,7 @@ export function GanttView({ project }: GanttViewProps) {
           </div>
         </div>
 
-        {/* Gantt Rows */}
+        { }
         <div>
           {project.phases.map((phase) => {
             const position = getPhasePosition(phase.startDate, phase.endDate);
@@ -106,13 +103,13 @@ export function GanttView({ project }: GanttViewProps) {
           })}
         </div>
 
-        {/* Today Marker */}
+        { }
         <div className="relative">
-          <div 
+          <div
             className="absolute top-0 bottom-0 w-0.5 bg-red-500 z-10"
-            style={{ 
+            style={{
               left: `${((new Date().getTime() - ganttData.minDate.getTime()) / (ganttData.maxDate.getTime() - ganttData.minDate.getTime())) * 100}%`,
-              marginLeft: '16rem' 
+              marginLeft: '16rem'
             }}
           >
             <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-2 py-1 rounded text-xs whitespace-nowrap">
@@ -122,7 +119,7 @@ export function GanttView({ project }: GanttViewProps) {
         </div>
       </div>
 
-      {/* Legend */}
+      { }
       <div className="mt-6 flex items-center gap-6">
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 bg-green-500 rounded"></div>

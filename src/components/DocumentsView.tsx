@@ -18,7 +18,6 @@ type Document = {
 export function DocumentsView() {
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Mock documents data
   const documents: Document[] = [
     {
       id: 'd1',
@@ -104,7 +103,7 @@ export function DocumentsView() {
             <BookOpen className="w-6 h-6 text-green-600" />
           )}
         </div>
-        
+
         <div className="flex-1 min-w-0">
           <h3 className="text-gray-900 mb-1 group-hover:text-blue-600 transition-colors">
             {doc.name}
@@ -136,7 +135,7 @@ export function DocumentsView() {
 
   return (
     <div className="p-8">
-      {/* Header */}
+      { }
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-gray-900 mb-1">Gestión Documental</h2>
@@ -148,7 +147,7 @@ export function DocumentsView() {
         </Button>
       </div>
 
-      {/* Search */}
+      { }
       <div className="mb-6">
         <div className="relative max-w-md">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -161,7 +160,7 @@ export function DocumentsView() {
         </div>
       </div>
 
-      {/* Documents Tabs */}
+      { }
       <Tabs defaultValue="all" className="space-y-6">
         <TabsList className="bg-white border border-gray-200">
           <TabsTrigger value="all" className="data-[state=active]:bg-blue-50 data-[state=active]:text-blue-600">
@@ -208,7 +207,7 @@ export function DocumentsView() {
         </TabsContent>
       </Tabs>
 
-      {/* Upload Zone */}
+      { }
       <Card className="mt-8 p-8 border-2 border-dashed border-gray-300 hover:border-blue-400 transition-colors">
         <div className="text-center">
           <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
@@ -225,7 +224,7 @@ export function DocumentsView() {
         </div>
       </Card>
 
-      {/* Stats */}
+      { }
       <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="p-6 border border-gray-200">
           <div className="flex items-center gap-4">
